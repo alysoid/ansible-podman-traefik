@@ -1,0 +1,8 @@
+---
+# Default values for containers
+container_defaults:
+  state: created
+  frontend: no
+
+# Combine default values with user defined settings
+container: "{{ container_defaults | combine(item) }}"

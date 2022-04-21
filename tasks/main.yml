@@ -1,0 +1,27 @@
+---
+- name: Add Traefik middleware
+  ansible.builtin.template:
+    src: "{{ playbook_dir }}/traefik/middleware.yml.j2"
+    dest: "{{ traefik_appdata_dir }}/config/middleware.yml"
+    owner: "{{ ansible_facts['user_uid'] }}"
+    group: "{{ ansible_facts['user_gid'] }}"
+    mode: 0644
+
+- name: Add Traefik routes and services
+  ansible.builtin.template:
+    src: "{{ playbook_dir }}/traefik/{{ item.name | lower }}.yml.j2"
+    dest: "{{ traefik_appdata_dir }}/config/{{ item.name | lower }}.yml"
+    owner: "{{ ansible_facts['user_uid'] }}"
+    group: "{{ ansible_facts['user_gid'] }}"
+    mode: 0644
+  vars:
+    service_ip: "{{ traefik_server_ip }}"
+  when: container.state != 'absent' and item.frontend
+  loop: "{{ podman_containers }}"
+
+- name: Remove Traefik routes and services
+  ansible.builtin.file:
+    path: "{{ traefik_appdata_dir }}/config/{{ item.name | lower }}.yml"
+    state: absent
+  when: container.state == 'absent'
+  loop: "{{ podman_containers }}"

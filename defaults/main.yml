@@ -1,0 +1,9 @@
+---
+# List of containers with user-defined settings
+podman_containers: []
+
+# Directory for storing services configuration files
+traefik_appdata_dir: "{{ ansible_facts['user_dir'] }}/traefik"
+
+# Server IP address
+traefik_server_ip: "{{ hostvars[inventory_hostname]['ansible_host'] }}"
