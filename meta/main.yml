@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: Andrea Brandi
+  description: Podman with Traefik file provider via custom YAML configuration files.
+  license: MIT
+
+  min_ansible_version: 2.1
+
+  platforms:
+    - name: ArchLinux
+      versions:
+        - all
+
+  galaxy_tags:
+    - traefik
+    - podman
+    - docker
+
+dependencies: []
